@@ -80,6 +80,18 @@
     text-decoration: underline;
 }
 
+.cadastro {text-align: center;
+
+}
+.cadastro a {
+    color: #007bff;
+    text-decoration:none;
+}
+
+.cadastro p {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
 @media (max-width: 600px) {
     .image-container {
         display: none;
