@@ -18,22 +18,22 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch('https://webservicespredictapp-production.up.railway.app/service2/', {
             method: 'POST'
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.erro === "false") {
-                    data.data.forEach(item => {
-                        const option = document.createElement('option');
-                        option.value = item.descricao;
-                        option.textContent = item.descricao;
-                        spinner.appendChild(option);
-                    });
-                    progressBar.style.display = 'none';
-                }
-            })
-            .catch(error => {
-                console.error('Erro ao buscar semestres:', error);
+        .then(response => response.json())
+        .then(data => {
+            if (data.erro === "false") {
+                data.data.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.descricao;
+                    option.textContent = item.descricao;
+                    spinner.appendChild(option);
+                });
                 progressBar.style.display = 'none';
-            });
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao buscar semestres:', error);
+            progressBar.style.display = 'none';
+        });
     }
 
     function fetchNotas(cpf, semestre) {
@@ -45,34 +45,34 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify({ login: cpf, semestre: semestre })
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.erro === "false") {
-                    recyclerView.innerHTML = '';
-                    txtNomeAluno.textContent = `Nome: ${data.data[0].aluno}`;
-                    data.data.forEach(item => {
-                        const div = document.createElement('div');
-                        div.className = 'notas';
-                        div.innerHTML = `
-                            <p>Disciplina: ${item.disciplina}</p>
-                            <p>Turma: ${item.turma}</p>
-                            <p>A1: ${item.a1}</p>
-                            <p>A2: ${item.a2}</p>
-                            <p>Sub: ${item.sub}</p>
-                            <p>A3: ${item.a3}</p>
-                            <p>Faltas A1: ${item.faltasA1}</p>
-                            <p>Faltas A2: ${item.faltasA2}</p>
-                        `;
-                        recyclerView.appendChild(div);
-                    });
-                } else {
-                    recyclerView.innerHTML = '<p>Nenhuma nota encontrada.</p>';
-                }
-                progressBar.style.display = 'none';
-            })
-            .catch(error => {
-                console.error('Erro ao buscar notas:', error);
-                progressBar.style.display = 'none';
-            });
+        .then(response => response.json())
+        .then(data => {
+            if (data.erro === "false") {
+                recyclerView.innerHTML = '';
+                txtNomeAluno.textContent = `Nome: ${data.data[0].aluno}`;
+                data.data.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'notas';
+                    div.innerHTML = `
+                        <p>Disciplina: ${item.disciplina}</p>
+                        <p>Turma: ${item.turma}</p>
+                        <p>A1: ${item.a1}</p>
+                        <p>A2: ${item.a2}</p>
+                        <p>Sub: ${item.sub}</p>
+                        <p>A3: ${item.a3}</p>
+                        <p>Faltas A1: ${item.faltasA1}</p>
+                        <p>Faltas A2: ${item.faltasA2}</p>
+                    `;
+                    recyclerView.appendChild(div);
+                });
+            } else {
+                recyclerView.innerHTML = '<p>Nenhuma nota encontrada.</p>';
+            }
+            progressBar.style.display = 'none';
+        })
+        .catch(error => {
+            console.error('Erro ao buscar notas:', error);
+            progressBar.style.display = 'none';
+        });
     }
 });
