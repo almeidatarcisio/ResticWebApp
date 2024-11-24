@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PredictApp</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img src="imagem300.png" alt="Imagem">
+        </div>
+        <div class="login-form">
+            <h2>Login</h2>
+            <label for="username">E-mail:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required>
+
+            <div class="forgot-password">
+                <a href="/forgot-password">Esqueci a senha</a>
+            </div>
+
+            <!-- Alterado o tipo do botão e adicionado o onclick -->
+            <button type="button" onclick="login()">Entrar</button>
+
+            <div class="cadastro">
+            <p>Não tem cadastro?</p>
+            <a href="cadastro.html" target="_self">Cadastre-se</a>
+            </div>
+        </div>
+    </div>
+
+<script>
+    function login() {
+        // Captura os valores dos campos
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        // Configura os dados a serem enviados no formato apropriado
+        const data = new URLSearchParams();
+        data.append('login', username);
+        data.append('senha', password);
+
+        // Envia a requisição POST
+        fetch('webservicespredictapp-production.up.railway.app/service1/', {   // Quando subir, mudar para o endereço do servidor
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: data.toString()
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro na requisição: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(result => {
+            // Verifica se houve erro
+            if (result.erro === false) {
+                // Se não houve erro, redireciona para uma nova página
+                window.location.href = 'nova-pagina.html';
+            } else {
+                // Exibe uma mensagem de erro ou toma outra ação
+                alert('Login ou senha incorretos.');
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+        });
+    }
+</script>
+
+
+</body>
+
+</html>

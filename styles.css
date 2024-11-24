@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin: 15px 0 5px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    display: none;
+    width: 100%;
+    height: 4px;
+    background: #4caf50;
+    margin-bottom: 20px;
+}
+
+.notas {
+    margin-top: 20px;
+}
+
+.notas div {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
