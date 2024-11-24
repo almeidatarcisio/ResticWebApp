@@ -18,8 +18,12 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch('https://webservicespredictapp-production.up.railway.app/service2/', {
             method: 'POST'
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log('Resposta da API para semestres:', response);
+            return response.json();
+        })
         .then(data => {
+            console.log('Dados recebidos para semestres:', data);
             if (data.erro === "false") {
                 data.data.forEach(item => {
                     const option = document.createElement('option');
@@ -27,8 +31,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     option.textContent = item.descricao;
                     spinner.appendChild(option);
                 });
-                progressBar.style.display = 'none';
+            } else {
+                console.error('Erro nos dados recebidos:', data);
             }
+            progressBar.style.display = 'none';
         })
         .catch(error => {
             console.error('Erro ao buscar semestres:', error);
@@ -45,8 +51,12 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify({ login: cpf, semestre: semestre })
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log('Resposta da API para notas:', response);
+            return response.json();
+        })
         .then(data => {
+            console.log('Dados recebidos para notas:', data);
             if (data.erro === "false") {
                 recyclerView.innerHTML = '';
                 txtNomeAluno.textContent = `Nome: ${data.data[0].aluno}`;
