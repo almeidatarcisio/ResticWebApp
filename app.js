@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const progressBar = document.getElementById('progressBar');
     const txtNomeAluno = document.getElementById('txtNomeAluno');
     const recyclerView = document.getElementById('recyclerView');
-    const cpf = "123.456.789-00"; // Substituir pelo CPF real
+    const cpf = "12345678901"; // Substituir pelo CPF real
 
     // Carrega os semestres ao carregar a página
     fetchSemestres();
