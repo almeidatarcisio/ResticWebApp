@@ -18,11 +18,16 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch('https://webservicespredictapp-production.up.railway.app/service2/', {
             method: 'POST'
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log('Resposta recebida:', response);
+            return response.json();
+        })
         .then(data => {
+            console.log('Dados recebidos:', data);
             if (data.erro === "false") {
                 if (Array.isArray(data.data) && data.data.length > 0) {
                     data.data.forEach(item => {
+                        console.log('Adicionando semestre:', item.descricao);
                         const option = document.createElement('option');
                         option.value = item.descricao;
                         option.textContent = item.descricao;
@@ -51,8 +56,12 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify({ login: cpf, semestre: semestre })
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log('Resposta recebida:', response);
+            return response.json();
+        })
         .then(data => {
+            console.log('Dados recebidos:', data);
             if (data.erro === "false") {
                 recyclerView.innerHTML = '';
                 if (Array.isArray(data.data) && data.data.length > 0) {
