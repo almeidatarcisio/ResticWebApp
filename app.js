@@ -13,39 +13,49 @@ document.addEventListener('DOMContentLoaded', function () {
         fetchNotas(cpf, selectedSemestre);
     });
 
-    function fetchSemestres() {
-        progressBar.style.display = 'block';
-        fetch('https://webservicespredictapp-production.up.railway.app/service2/', {
-            method: 'POST'
-        })
-        .then(response => {
-            console.log('Resposta recebida:', response);
-            return response.json();
-        })
-        .then(data => {
-            console.log('Dados recebidos para semestres:', data);
-            if (data.erro === false) {
-                if (Array.isArray(data.data) && data.data.length > 0) {
-                    data.data.forEach(item => {
-                        console.log('Adicionando semestre:', item.descricao);
-                        const option = document.createElement('option');
-                        option.value = item.descricao;
-                        option.textContent = item.descricao;
-                        spinner.appendChild(option);
-                    });
-                } else {
-                    console.error('Nenhum semestre encontrado nos dados recebidos.');
-                }
+function fetchSemestres() {
+    progressBar.style.display = 'block';
+    fetch('https://webservicespredictapp-production.up.railway.app/service2/', {
+        method: 'POST'
+    })
+    .then(response => {
+        console.log('Resposta recebida:', response);
+        return response.json();
+    })
+    .then(data => {
+        console.log('Dados recebidos para semestres:', data);
+        if (data.erro === false) {
+            if (Array.isArray(data.data) && data.data.length > 0) {
+                // Limpa as opções existentes no spinner
+                spinner.innerHTML = '';
+                
+                // Adiciona uma opção em branco como padrão
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = 'Selecione um semestre';
+                spinner.appendChild(defaultOption);
+
+                // Adiciona as opções de semestre
+                data.data.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.descricao;
+                    option.textContent = item.descricao;
+                    spinner.appendChild(option);
+                });
             } else {
-                console.error('Erro nos dados recebidos:', data);
+                console.error('Nenhum semestre encontrado nos dados recebidos.');
             }
-            progressBar.style.display = 'none';
-        })
-        .catch(error => {
-            console.error('Erro ao buscar semestres:', error);
-            progressBar.style.display = 'none';
-        });
-    }
+        } else {
+            console.error('Erro nos dados recebidos:', data);
+        }
+        progressBar.style.display = 'none';
+    })
+    .catch(error => {
+        console.error('Erro ao buscar semestres:', error);
+        progressBar.style.display = 'none';
+    });
+}
+
 
     function fetchNotas(cpf, semestre) {
         progressBar.style.display = 'block';
