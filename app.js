@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(data => {
             console.log('Dados recebidos para semestres:', data);
-            if (data.erro === "false") {
+            if (data.erro === false) {
                 if (Array.isArray(data.data) && data.data.length > 0) {
                     data.data.forEach(item => {
                         console.log('Adicionando semestre:', item.descricao);
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(data => {
             console.log('Dados recebidos para notas:', data);
-            if (data.erro === "false") {
+            if (data.erro === false) {
                 recyclerView.innerHTML = '';
                 if (Array.isArray(data.data) && data.data.length > 0) {
                     txtNomeAluno.textContent = `Nome: ${data.data[0].aluno}`;
