@@ -57,18 +57,21 @@ function fetchSemestres() {
 }
 
 
-function fetchNotas() {
-    const login = document.getElementById('login').value;
-    const semestre = document.getElementById('semestre').value;
+function fetchNotas(login, selected) {
+    console.log("Login: " + login + " | Semestre: " + selected);
 
-    const data = { login: login, semestre: semestre };
+    // Mostrando o indicador de carregamento
+    document.getElementById('progressBar').style.display = 'block';
 
     fetch('https://webservicespredictapp-production.up.railway.app/service3/', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify(data),
+        body: new URLSearchParams({
+            'login': login,
+            'semestre': selected
+        })
     })
     .then(response => {
         if (!response.ok) {
@@ -77,16 +80,45 @@ function fetchNotas() {
         return response.json();
     })
     .then(data => {
-        if (data.erro) {
-            console.error('Erro nos dados recebidos:', data);
+        console.log(data);
+        // Verificando se houve erro na resposta
+        if (data.erro === false) {
+            const notasList = document.getElementById('notasList');
+            notasList.innerHTML = ''; // Limpa a lista antes de adicionar novos elementos
+
+            const aluno = data.data[0].aluno;
+            document.getElementById('txtNomeAluno').innerText = "NOME: " + aluno;
+
+            data.data.forEach(nota => {
+                const disciplina = nota.disciplina;
+                const turma = nota.turma;
+                const a1 = nota.a1;
+                const a2 = nota.a2;
+                const sub = nota.sub;
+                const a3 = nota.a3;
+                const faltasA1 = nota.faltasA1;
+                const faltasA2 = nota.faltasA2;
+
+                const notaItem = document.createElement('li');
+                notaItem.textContent = `Disciplina: ${disciplina}, Turma: ${turma}, A1: ${a1}, A2: ${a2}, Sub: ${sub}, A3: ${a3}, Faltas A1: ${faltasA1}, Faltas A2: ${faltasA2}`;
+                notasList.appendChild(notaItem);
+            });
+
         } else {
-            console.log('Dados recebidos para notas:', data);
-            // Renderize os dados no HTML conforme necessário
+            document.getElementById('notasList').innerHTML = '';
+            alert(data.mensagem);
         }
+
+        // Ocultando o indicador de carregamento
+        document.getElementById('progressBar').style.display = 'none';
     })
     .catch(error => {
         console.error('Erro ao buscar notas:', error);
+        alert('Erro ao buscar notas: ' + error.message);
+        // Ocultando o indicador de carregamento
+        document.getElementById('progressBar').style.display = 'none';
     });
 }
+
 
 });
