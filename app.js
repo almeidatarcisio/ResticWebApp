@@ -116,8 +116,7 @@ function fetchNotas(login, semestre) {
 
                     // Cria um item de lista e adiciona ao DOM
                     const notaItem = document.createElement('li');
-                    notaItem.textContent = `Disciplina: ${disciplina}<br> Turma: ${turma}, A1: ${a1}, A2: ${a2}, Sub: ${sub}, A3: ${a3}, Faltas A1: ${faltasA1}, Faltas A2: ${faltasA2}`;
-                    notasList.appendChild(notaItem);
+					notaItem.innerHTML = `Disciplina: ${disciplina}<br>Turma: ${turma}<br>A1: ${a1}<br>A2: ${a2}<br>Sub: ${sub}<br>A3: ${a3}<br>Faltas A1: ${faltasA1}<br>Faltas A2: ${faltasA2}`;                    notasList.appendChild(notaItem);
                 });
 
                 // Aqui você pode fazer qualquer coisa com o array `notaList`, como armazená-lo em uma variável global ou local
