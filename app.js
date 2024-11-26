@@ -83,6 +83,7 @@ function fetchNotas(cpf, selectedSemestre) {
         console.log(data);
         // Verificando se houve erro na resposta
         if (data.erro === false) {
+            const notaList = []; // Array para armazenar os dados
             const notasList = document.getElementById('notasList');
             notasList.innerHTML = ''; // Limpa a lista antes de adicionar novos elementos
 
@@ -99,10 +100,26 @@ function fetchNotas(cpf, selectedSemestre) {
                 const faltasA1 = nota.faltasA1;
                 const faltasA2 = nota.faltasA2;
 
+                // Armazena os dados no array
+                notaList.push({
+                    disciplina,
+                    turma,
+                    a1,
+                    a2,
+                    sub,
+                    a3,
+                    faltasA1,
+                    faltasA2
+                });
+
+                // Cria um item de lista e adiciona ao DOM
                 const notaItem = document.createElement('li');
                 notaItem.textContent = `Disciplina: ${disciplina}, Turma: ${turma}, A1: ${a1}, A2: ${a2}, Sub: ${sub}, A3: ${a3}, Faltas A1: ${faltasA1}, Faltas A2: ${faltasA2}`;
                 notasList.appendChild(notaItem);
             });
+
+            // Aqui você pode fazer qualquer coisa com o array `notaList`, como armazená-lo em uma variável global ou local
+            console.log('notaList:', notaList);
 
         } else {
             document.getElementById('notasList').innerHTML = '';
@@ -119,6 +136,7 @@ function fetchNotas(cpf, selectedSemestre) {
         document.getElementById('progressBar').style.display = 'none';
     });
 }
+
 
 
 });
