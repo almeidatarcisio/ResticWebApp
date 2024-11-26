@@ -116,7 +116,7 @@ function fetchNotas(login, semestre) {
 
                     // Cria um item de lista e adiciona ao DOM
                     const notaItem = document.createElement('li');
-                    notaItem.textContent = `Disciplina: ${disciplina}, Turma: ${turma}, A1: ${a1}, A2: ${a2}, Sub: ${sub}, A3: ${a3}, Faltas A1: ${faltasA1}, Faltas A2: ${faltasA2}`;
+                    notaItem.textContent = `Disciplina: ${disciplina}<br> Turma: ${turma}, A1: ${a1}, A2: ${a2}, Sub: ${sub}, A3: ${a3}, Faltas A1: ${faltasA1}, Faltas A2: ${faltasA2}`;
                     notasList.appendChild(notaItem);
                 });
 
