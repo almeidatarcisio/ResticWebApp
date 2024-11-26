@@ -77,53 +77,60 @@ function fetchNotas(cpf, selectedSemestre) {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        return response.json();
+        return response.text();  // Mudamos para text() temporariamente para verificar a resposta bruta
     })
-    .then(data => {
-        console.log(data);
-        // Verificando se houve erro na resposta
-        if (data.erro === false) {
-            const notaList = []; // Array para armazenar os dados
-            const notasList = document.getElementById('notasList');
-            notasList.innerHTML = ''; // Limpa a lista antes de adicionar novos elementos
+    .then(text => {
+        console.log("Resposta bruta do servidor:", text);  // Log da resposta bruta
+        try {
+            const data = JSON.parse(text);  // Tentando converter a resposta em JSON
+            console.log("Dados JSON:", data);
+            if (data.erro === false) {
+                const notaList = []; // Array para armazenar os dados
+                const notasList = document.getElementById('notasList');
+                notasList.innerHTML = ''; // Limpa a lista antes de adicionar novos elementos
 
-            const aluno = data.data[0].aluno;
-            document.getElementById('txtNomeAluno').innerText = "NOME: " + aluno;
+                const aluno = data.data[0].aluno;
+                document.getElementById('txtNomeAluno').innerText = "NOME: " + aluno;
 
-            data.data.forEach(nota => {
-                const disciplina = nota.disciplina;
-                const turma = nota.turma;
-                const a1 = nota.a1;
-                const a2 = nota.a2;
-                const sub = nota.sub;
-                const a3 = nota.a3;
-                const faltasA1 = nota.faltasA1;
-                const faltasA2 = nota.faltasA2;
+                data.data.forEach(nota => {
+                    const disciplina = nota.disciplina;
+                    const turma = nota.turma;
+                    const a1 = nota.a1;
+                    const a2 = nota.a2;
+                    const sub = nota.sub;
+                    const a3 = nota.a3;
+                    const faltasA1 = nota.faltasA1;
+                    const faltasA2 = nota.faltasA2;
 
-                // Armazena os dados no array
-                notaList.push({
-                    disciplina,
-                    turma,
-                    a1,
-                    a2,
-                    sub,
-                    a3,
-                    faltasA1,
-                    faltasA2
+                    // Armazena os dados no array
+                    notaList.push({
+                        disciplina,
+                        turma,
+                        a1,
+                        a2,
+                        sub,
+                        a3,
+                        faltasA1,
+                        faltasA2
+                    });
+
+                    // Cria um item de lista e adiciona ao DOM
+                    const notaItem = document.createElement('li');
+                    notaItem.textContent = `Disciplina: ${disciplina}, Turma: ${turma}, A1: ${a1}, A2: ${a2}, Sub: ${sub}, A3: ${a3}, Faltas A1: ${faltasA1}, Faltas A2: ${faltasA2}`;
+                    notasList.appendChild(notaItem);
                 });
 
-                // Cria um item de lista e adiciona ao DOM
-                const notaItem = document.createElement('li');
-                notaItem.textContent = `Disciplina: ${disciplina}, Turma: ${turma}, A1: ${a1}, A2: ${a2}, Sub: ${sub}, A3: ${a3}, Faltas A1: ${faltasA1}, Faltas A2: ${faltasA2}`;
-                notasList.appendChild(notaItem);
-            });
+                // Aqui você pode fazer qualquer coisa com o array `notaList`, como armazená-lo em uma variável global ou local
+                console.log('notaList:', notaList);
 
-            // Aqui você pode fazer qualquer coisa com o array `notaList`, como armazená-lo em uma variável global ou local
-            console.log('notaList:', notaList);
+            } else {
+                document.getElementById('notasList').innerHTML = '';
+                alert(data.mensagem);
+            }
 
-        } else {
-            document.getElementById('notasList').innerHTML = '';
-            alert(data.mensagem);
+        } catch (error) {
+            console.error('Erro ao analisar JSON:', error);
+            alert('Erro ao analisar JSON: ' + error.message);
         }
 
         // Ocultando o indicador de carregamento
@@ -136,6 +143,7 @@ function fetchNotas(cpf, selectedSemestre) {
         document.getElementById('progressBar').style.display = 'none';
     });
 }
+
 
 
 
