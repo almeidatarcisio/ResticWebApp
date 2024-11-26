@@ -57,8 +57,8 @@ function fetchSemestres() {
 }
 
 
-function fetchNotas(cpf, selectedSemestre) {
-    console.log("CPF: " + cpf + " | Semestre: " + selectedSemestre);
+function fetchNotas(login, semestre) {
+    console.log("Login: " + login + " | Semestre: " + semestre);
 
     // Mostrando o indicador de carregamento
     document.getElementById('progressBar').style.display = 'block';
@@ -69,8 +69,8 @@ function fetchNotas(cpf, selectedSemestre) {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: new URLSearchParams({
-            'cpf': cpf,
-            'semestre': selectedSemestre
+            'login': login,
+            'semestre': semestre
         })
     })
     .then(response => {
